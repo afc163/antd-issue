@@ -1,12 +1,10 @@
 const path = require('path')
-const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = {
   entry: {
     app: [
-      'webpack-dev-server/client?http://0.0.0.0:3000',
-      'webpack/hot/dev-server?http://0.0.0.0:3000',
       './src/index.js'
     ]
   },
@@ -22,10 +20,10 @@ module.exports = {
     extensions: ['.jsx', '.js']
   },
 
-  // externals: {
-  //   'react': 'React',
-  //   'react-dom': 'ReactDOM'
-  // },
+  externals: {
+    'react': 'React',
+    'react-dom': 'ReactDOM'
+  },
 
   module: {
     rules: [
@@ -44,30 +42,22 @@ module.exports = {
     ]
   },
 
-  devtool: 'cheap-module-eval-source-map',
+  devtool: 'source-map',
 
   plugins: [
-    new webpack.optimize.ModuleConcatenationPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: './src/index.html',
       inject: true
+    }),
+    new UglifyJSPlugin({
+      uglifyOptions: {
+        ecma: 6,
+        compress: {
+          warnings: false
+        }
+      },
+      sourceMap: true
     })
-  ],
-
-  devServer: {
-    host: '0.0.0.0',
-    port: 3000,
-    inline: true,
-    hot: true,
-    compress: true,
-    publicPath: '/',
-    contentBase: path.join(__dirname, 'src'),
-    historyApiFallback: true,
-    clientLogLevel: 'none',
-    overlay: false,
-    stats: 'minimal'
- }
+  ]
 }

@@ -1,17 +1,10 @@
 Antd Issue
 ==========
 
-Get Start
+Reproduction Step
 ---------
 
 ```bash
 $ yarn
-$ npm start
+$ npm run serve
 ```
-
-Reproduction Step
------------------
-
-Just modify `App.js` file, and browser will reload, then you will see the error in `console`.
-
-remove the `webpack.optimize.ModuleConcatenationPlugin` in `webpack.config.js`, try it again.
